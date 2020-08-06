@@ -7,19 +7,19 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author karl8
  */
-@WebServlet(name = "Cart", urlPatterns = {"/Cart"})
-public class CartServlet extends HttpServlet {
+@WebServlet(name = "DeleteCart", urlPatterns = {"/DeleteCart"})
+public class DeleteCartServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,49 +33,12 @@ public class CartServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        ArrayList<data.Item> items = null;
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String result = "Unknown";
-            try 
-            {
-                
-               items = ((ArrayList<data.Item>) request.getSession().getAttribute("mycart"));
-               result="Successful";
-            }
-            catch(Exception ex)
-            {
-               result="Failure: " + ex;
-            }    
-            
-            out.println("<!DOCTYPE html>");
-            out.println("<html lang='et'>");
-            out.println("<head>");
-            out.println("<meta charset='UTF-8'>");
-            out.println("<title>Servlet CartServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Cart</h1>");
+            HttpSession session = request.getSession(false);
+            session.invalidate();
+            response.sendRedirect("Cart");
 
-            if (items != null)
-            {
-                out.println("<ul>");
-
-                items.forEach((n) -> out.println("<li>"+ n.getName() + "</li>"));
-                out.println("</ul");
-                out.println("<br>");
-                out.println("<a href='DeleteCart'>Empty cart</a>");
-                out.println("<br>");
-            }
-            else 
-            {
-                out.println("There are currently no items in the cart");
-                out.println("<br>");
-            }
-            out.println("<a href='index.html'>Back to shopping</a>");
-
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 
@@ -117,7 +80,5 @@ public class CartServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-
 
 }

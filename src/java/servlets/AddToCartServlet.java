@@ -39,8 +39,9 @@ public class AddToCartServlet extends HttpServlet {
             {
                try (PrintWriter out = response.getWriter()) {
                     out.println("<!DOCTYPE html>");
-                    out.println("<html>");
+                    out.println("<html lang='et'>");
                     out.println("<head>");
+                    out.println("<meta charset='Unicode'>");
                     out.println("<title>Servlet CartServlet</title>");            
                     out.println("</head>");
                     out.println("<body>");
